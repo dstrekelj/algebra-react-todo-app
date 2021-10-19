@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, deleteItem, markItemAsDone } from "./reducers/ToDoReducer";
 
 function App() {
-  const [ todoState, setTodoState ] = useState([]);
+  const dispatch = useDispatch();
+  const todoItems = useSelector(state => state.items);
+
   const [ formState, setFormState ] = useState({ text: "" });
 
   const handleOnChange = (event) => {
@@ -14,32 +18,22 @@ function App() {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    setTodoState(todoState => [
-      ...todoState,
-      { ...formState, isDone: false }
-    ]);
+    dispatch(addItem(formState));
     setFormState({ text: "" });
   }
 
   const handleOnDelete = (item, index) => (event) => {
-    setTodoState((todoState) => [
-      ...todoState.slice(0, index),
-      ...todoState.slice(index + 1),
-    ]);
+    dispatch(deleteItem(item));
   }
 
   const handleOnToggle = (item, index) => (event) => {
-    setTodoState((todoState) => [
-      ...todoState.slice(0, index),
-      { ...item, isDone: !item.isDone },
-      ...todoState.slice(index + 1),
-    ]);
+    dispatch(markItemAsDone(item, !item.isDone));
   }
 
   return (
     <div>
       <div>
-        {todoState.map((item, index) =>
+        {todoItems.map((item, index) =>
           <div key={index}>
             <button type="button"
               onClick={handleOnToggle(item, index)}
