@@ -6,6 +6,7 @@ import {
   markItemAsDone,
   selectAllItems,
 } from "./reducers/ToDoReducer";
+import ToDoItem from "./components/ToDoItem";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,19 +40,13 @@ function App() {
     <div>
       <div>
         {todoItems.map((item, index) =>
-          <div key={index}>
-            <button type="button"
-              onClick={handleOnToggle(item, index)}
-            >
-              {item.isDone ? "Mark as todo" : "Mark as done"}
-            </button>
+          <ToDoItem key={index}
+            isDone={item.isDone}
+            onDelete={handleOnDelete(item, index)}
+            onToggle={handleOnToggle(item, index)}
+          >
             {item.text}
-            <button type="button"
-              onClick={handleOnDelete(item, index)}
-            >
-              Delete
-            </button>
-          </div>
+          </ToDoItem>
         )}
       </div>
       <form onSubmit={handleOnSubmit}>
