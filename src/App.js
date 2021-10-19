@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, deleteItem, markItemAsDone } from "./reducers/ToDoReducer";
+import {
+  addItem,
+  deleteItem,
+  markItemAsDone,
+  selectAllItems,
+} from "./reducers/ToDoReducer";
 
 function App() {
   const dispatch = useDispatch();
-  const todoItems = useSelector(state => state.items);
+  const todoItems = useSelector(selectAllItems);
 
   const [ formState, setFormState ] = useState({ text: "" });
 

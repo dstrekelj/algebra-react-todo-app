@@ -2,6 +2,8 @@ const initialState = {
   items: [],
 };
 
+export const selectAllItems = (state) => state.items;
+
 const type = {
   ADD_ITEM: 'ADD_ITEM',
   DELETE_ITEM: 'DELETE_ITEM',
