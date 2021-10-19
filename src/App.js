@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addItem,
-  deleteItem,
-  markItemAsDone,
-  selectAllItems,
-} from "./reducers/ToDoReducer";
-import ToDoItem from "./components/ToDoItem";
+import { useDispatch } from "react-redux";
+import { addItem } from "./reducers/ToDoReducer";
+import ToDoItemList from "./components/ToDoItemList";
 
 function App() {
   const dispatch = useDispatch();
-  const todoItems = useSelector(selectAllItems);
 
   const [ formState, setFormState ] = useState({ text: "" });
 
@@ -28,27 +22,9 @@ function App() {
     setFormState({ text: "" });
   }
 
-  const handleOnDelete = (item, index) => (event) => {
-    dispatch(deleteItem(item));
-  }
-
-  const handleOnToggle = (item, index) => (event) => {
-    dispatch(markItemAsDone(item, !item.isDone));
-  }
-
   return (
     <div>
-      <div>
-        {todoItems.map((item, index) =>
-          <ToDoItem key={index}
-            isDone={item.isDone}
-            onDelete={handleOnDelete(item, index)}
-            onToggle={handleOnToggle(item, index)}
-          >
-            {item.text}
-          </ToDoItem>
-        )}
-      </div>
+      <ToDoItemList />
       <form onSubmit={handleOnSubmit}>
         <input name="text" type="text" placeholder="Item text"
           onChange={handleOnChange}
